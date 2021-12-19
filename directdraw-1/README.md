@@ -33,7 +33,7 @@ $ ldd some.exe
         wow64win.dll => /c/Windows/System32/wow64win.dll (0x7ffc7b1c0000)
 ```
 
-The output of the app:
+Output of the app (after it starts up, you press any key and it shuts down):
 ```
 $ ./some.exe
 OK EnumDisplaySettings()
