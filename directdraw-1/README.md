@@ -32,3 +32,19 @@ $ ldd some.exe
         wow64.dll => /c/Windows/System32/wow64.dll (0x7ffc7c0a0000)
         wow64win.dll => /c/Windows/System32/wow64win.dll (0x7ffc7b1c0000)
 ```
+
+The output of the app:
+```
+$ ./some.exe
+OK EnumDisplaySettings()
+devmode says: 1920x1080 (32 bpp)
+OK RegisterClass()
+OK CreateWindowEx()
+OK ShowWindow, UpdateWindow, CreateWindowEx()
+OK ShowWindow, UpdateWindow, DirectDrawCreate()
+OK IDirectDraw_SetCooperativeLevel()
+OK IDirectDraw_SetDisplayMode()
+OK IDirectDraw_CreateSurface()
+OK IDirectDraw_CreatePalette()
+OK IDirectDrawSurface_SetPalette()
+```
