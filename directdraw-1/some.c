@@ -86,6 +86,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	rc = IDirectDraw_SetDisplayMode(dd_obj, 640, 480, 8);
 	if (rc != DD_OK) {
+		printf("NO IDirectDraw_SetDisplayMode(): GLE = %ld\n", GetLastError());
 		IDirectDraw_Release(dd_obj);
 		return 1;
 	}
