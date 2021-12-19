@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <windowsx.h>
 #include <ddraw.h>
+#include <stdio.h>
 
 static int quit = 0;
 
@@ -46,13 +47,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	wc.lpszMenuName   = NULL;
 	wc.lpszClassName  = WIN_CLASS_NAME;
 
+	printf("Hello Moto from %s!\n", WIN_TITLE);
+
 	rc = RegisterClass(&wc);
 	if (!rc)
 		return 1;
+	printf("OK RegisterClass()\n");
 
 	main_hwnd = CreateWindowEx(0, WIN_CLASS_NAME, WIN_TITLE, WS_POPUP, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), NULL, NULL, hInstance, NULL);
 	if (!main_hwnd)
 		return 1;
+	printf("OK CreateWindowEx()\n");
 
 	ShowWindow(main_hwnd, nCmdShow);
 	UpdateWindow(main_hwnd);
@@ -60,6 +65,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         hwnd2 = CreateWindowEx(WS_EX_CONTROLPARENT, WIN_CLASS_NAME, WIN_TITLE, WS_POPUP, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), main_hwnd, NULL, hInstance, NULL);
         if (!hwnd2)
                 return 1;
+	printf("OK ShowWindow, UpdateWindow, CreateWindowEx()\n");
 
         ShowWindow(hwnd2, nCmdShow);
         UpdateWindow(hwnd2);
@@ -69,18 +75,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (rc != DD_OK) {
 		return 1;
 	}
+	printf("OK ShowWindow, UpdateWindow, DirectDrawCreate()\n");
 
 	rc = IDirectDraw_SetCooperativeLevel(dd_obj, main_hwnd, DDSCL_ALLOWREBOOT | DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN);
 	if (rc != DD_OK) {
 		IDirectDraw_Release(dd_obj);
 		return 1;
 	}
+	printf("OK IDirectDraw_SetCooperativeLevel()\n");
 
 	rc = IDirectDraw_SetDisplayMode(dd_obj, 640, 480, 8);
 	if (rc != DD_OK) {
+		printf("NO IDirectDraw_SetDisplayMode(): GLE = %ld\n", GetLastError());
 		IDirectDraw_Release(dd_obj);
 		return 1;
 	}
+	printf("OK IDirectDraw_SetDisplayMode()\n");
 
 	ZeroMemory(&dd_sd1, sizeof(dd_sd1));
 	dd_sd1.dwSize = sizeof(dd_sd1);
@@ -92,6 +102,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		IDirectDraw_Release(dd_obj);
 		return 1;
 	}
+	printf("OK IDirectDraw_CreateSurface()\n");
 
 	for (x = 0; x < 256; x++) {
 		palette[x].peRed = x;
@@ -100,8 +111,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		palette[x].peFlags = 0;
 	}
 	rc = IDirectDraw_CreatePalette(dd_obj, DDPCAPS_8BIT, palette, &whatever, NULL);
+	printf("OK IDirectDraw_CreatePalette()\n");
 
 	rc = IDirectDrawSurface_SetPalette(dd_buf1, whatever);
+	printf("OK IDirectDrawSurface_SetPalette()\n");
 
 
 	while (!quit) {
