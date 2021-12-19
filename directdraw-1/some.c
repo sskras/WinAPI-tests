@@ -26,6 +26,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	int rc;
 	HWND main_hwnd;
 	HWND hwnd2;
+	DEVMODE devmode;
+	BOOL OK;
 	LPDIRECTDRAW dd_obj;
 	DDSURFACEDESC dd_sd1;
 	LPDIRECTDRAWSURFACE dd_buf1;
@@ -49,6 +51,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	printf("Hello Moto from %s!\n", WIN_TITLE);
 
+	/* 2021-12-18 sskras: inspired by the following GPLv2-licensed snippet:
+	 * https://github.com/masterfeizz/EDuke3D/blob/e29108b78c777d5f7814ff4543c1643b93c77d24/build/src/misc/enumdisplay.c#L26
+	 * (no copy-pasting though) */
+
+	ZeroMemory(&devmode, sizeof(devmode));
+	devmode.dmSize = sizeof(DEVMODE);
+	SetLastError(0xfaceabee);
+
+	OK = EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &devmode);
+	if (!OK) {
+		DWORD GLE = GetLastError();
+		printf("NO EnumDisplaySettings(): rc = %d, GLE = 0x%lx\n", rc, GLE);
+		printf("devmode says: %lu x %lu x %lu\n", devmode.dmPelsWidth, devmode.dmPelsHeight, devmode.dmBitsPerPel);
+		return 1;
+	}
+	printf("OK EnumDisplaySettings()\n");
+	printf("devmode says: %lu x %lu x %lu\n", devmode.dmPelsWidth, devmode.dmPelsHeight, devmode.dmBitsPerPel);
+
 	rc = RegisterClass(&wc);
 	if (!rc)
 		return 1;
@@ -70,7 +90,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         ShowWindow(hwnd2, nCmdShow);
         UpdateWindow(hwnd2);
 
-
 	rc = DirectDrawCreate(NULL, &dd_obj, NULL);
 	if (rc != DD_OK) {
 		return 1;
@@ -84,7 +103,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 	printf("OK IDirectDraw_SetCooperativeLevel()\n");
 
-	rc = IDirectDraw_SetDisplayMode(dd_obj, 640, 480, 32);
+	rc = IDirectDraw_SetDisplayMode(dd_obj, devmode.dmPelsWidth, devmode.dmPelsHeight, devmode.dmBitsPerPel);
 	if (rc != DD_OK) {
 		printf("NO IDirectDraw_SetDisplayMode(): GLE = %ld\n", GetLastError());
 		IDirectDraw_Release(dd_obj);
