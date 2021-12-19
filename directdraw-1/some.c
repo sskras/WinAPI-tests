@@ -49,8 +49,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	wc.lpszMenuName   = NULL;
 	wc.lpszClassName  = WIN_CLASS_NAME;
 
-	printf("Hello Moto from %s!\n", WIN_TITLE);
-
 	/* 2021-12-18 sskras: inspired by the following GPLv2-licensed snippet:
 	 * https://github.com/masterfeizz/EDuke3D/blob/e29108b78c777d5f7814ff4543c1643b93c77d24/build/src/misc/enumdisplay.c#L26
 	 * (no copy-pasting though) */
@@ -62,7 +60,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	OK = EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &devmode);
 	if (!OK) {
 		DWORD GLE = GetLastError();
-		printf("NO EnumDisplaySettings(): rc = %d, GLE = 0x%lx\n", rc, GLE);
+		printf("NO EnumDisplaySettings(): GLE = 0x%lx\n", GLE);
 		printf("devmode says: %lu x %lu x %lu\n", devmode.dmPelsWidth, devmode.dmPelsHeight, devmode.dmBitsPerPel);
 		return 1;
 	}
