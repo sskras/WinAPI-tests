@@ -84,7 +84,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 	printf("OK IDirectDraw_SetCooperativeLevel()\n");
 
-	rc = IDirectDraw_SetDisplayMode(dd_obj, 640, 480, 8);
+	rc = IDirectDraw_SetDisplayMode(dd_obj, 640, 480, 32);
 	if (rc != DD_OK) {
 		printf("NO IDirectDraw_SetDisplayMode(): GLE = %ld\n", GetLastError());
 		IDirectDraw_Release(dd_obj);
