@@ -76,6 +76,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	screen_y = devmode.dmPelsHeight;
 	screen_bpp = devmode.dmBitsPerPel;
 	printf("Current display mode: %lux%lu (%lu bpp)\n", screen_x, screen_y, screen_bpp);
+	printf("GetSystemMetrics(SM_CXSCREEN)=%d\n", GetSystemMetrics(SM_CXSCREEN));
+	printf("GetSystemMetrics(SM_CYSCREEN)=%d\n", GetSystemMetrics(SM_CYSCREEN));
 	// screen_x = 640;
 	// screen_y = 480;
 
@@ -84,7 +86,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return 1;
 	printf("OK RegisterClass()\n");
 
-	main_hwnd = CreateWindowEx(0, WIN_CLASS_NAME, WIN_TITLE, WS_POPUP, 0, 0, screen_x, screen_y, NULL, NULL, hInstance, NULL);
+	main_hwnd = CreateWindowEx(0, WIN_CLASS_NAME, WIN_TITLE, WS_POPUP, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), NULL, NULL, hInstance, NULL);
 	if (!main_hwnd)
 		return 1;
 	printf("OK CreateWindowEx()\n");
@@ -92,7 +94,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ShowWindow(main_hwnd, nCmdShow);
 	UpdateWindow(main_hwnd);
 
-        hwnd2 = CreateWindowEx(WS_EX_CONTROLPARENT, WIN_CLASS_NAME, WIN_TITLE, WS_POPUP, 0, 0, screen_x/2, screen_y, main_hwnd, NULL, hInstance, NULL);
+        hwnd2 = CreateWindowEx(WS_EX_CONTROLPARENT, WIN_CLASS_NAME, WIN_TITLE, WS_POPUP, 0, 0, GetSystemMetrics(SM_CXSCREEN)/2, GetSystemMetrics(SM_CYSCREEN), main_hwnd, NULL, hInstance, NULL);
         if (!hwnd2)
                 return 1;
 	printf("OK ShowWindow, UpdateWindow, CreateWindowEx()\n");
