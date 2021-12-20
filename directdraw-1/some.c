@@ -78,8 +78,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	printf("Current display mode: %lux%lu (%lu bpp)\n", screen_x, screen_y, screen_bpp);
 	printf("GetSystemMetrics(SM_CXSCREEN)=%d\n", GetSystemMetrics(SM_CXSCREEN));
 	printf("GetSystemMetrics(SM_CYSCREEN)=%d\n", GetSystemMetrics(SM_CYSCREEN));
-	screen_x = 640;
-	screen_y = 480;
+	// screen_x = 640;
+	// screen_y = 480;
 
 	rc = RegisterClass(&wc);
 	if (!rc)
