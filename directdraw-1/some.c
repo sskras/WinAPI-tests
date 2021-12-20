@@ -142,6 +142,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	rc = IDirectDraw_CreatePalette(dd_obj, DDPCAPS_8BIT, palette, &whatever, NULL);
 	printf("OK IDirectDraw_CreatePalette()\n");
 
+	DWORD ddcaps;
+
+	rc = IDirectDrawPalette_GetCaps(whatever, &ddcaps);
+	if (rc != DD_OK) {
+		printf("NO IDirectDrawPalette_GetCaps(): GLE = %ld\n", GetLastError());
+		IDirectDraw_Release(dd_obj);
+		return 1;
+	}
+
+	printf("OK IDirectDrawSurface_GetCaps()\n");
+	printf("DDSCAPS are: %lx\n", ddcaps);
+
 	rc = IDirectDrawSurface_SetPalette(dd_buf1, whatever);
 	printf("OK IDirectDrawSurface_SetPalette()\n");
 
