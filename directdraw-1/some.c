@@ -90,7 +90,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ShowWindow(main_hwnd, nCmdShow);
 	UpdateWindow(main_hwnd);
 
-        hwnd2 = CreateWindowEx(WS_EX_CONTROLPARENT, WIN_CLASS_NAME, WIN_TITLE, WS_POPUP, 0, 0, screen_x, screen_y, main_hwnd, NULL, hInstance, NULL);
+        hwnd2 = CreateWindowEx(WS_EX_CONTROLPARENT, WIN_CLASS_NAME, WIN_TITLE, WS_POPUP, 0, 0, screen_x/2, screen_y, main_hwnd, NULL, hInstance, NULL);
         if (!hwnd2)
                 return 1;
 	printf("OK ShowWindow, UpdateWindow, CreateWindowEx()\n");
