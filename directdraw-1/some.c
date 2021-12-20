@@ -166,7 +166,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			rc = IDirectDrawSurface_Lock(dd_buf1, NULL, &dd_sd1, 1, NULL);
 		}
 		lpscreen = (BYTE*)dd_sd1.lpSurface;
-		for (y = 0; y < screen_x*screen_y; y++) {
+		for (y = 0; y < screen_x * screen_y * (screen_bpp/8); y++) {
 			lpscreen[y] = (BYTE)x;
 		}
 		rc = 1;
