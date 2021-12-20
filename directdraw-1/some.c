@@ -76,6 +76,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	screen_y = devmode.dmPelsHeight;
 	screen_bpp = devmode.dmBitsPerPel;
 	printf("Current display mode: %lux%lu (%lu bpp)\n", screen_x, screen_y, screen_bpp);
+	// screen_x = 640;
+	// screen_y = 480;
 
 	rc = RegisterClass(&wc);
 	if (!rc)
