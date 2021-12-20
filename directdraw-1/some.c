@@ -1,3 +1,5 @@
+// 2021-12-19 saukrs saved from: https://bugs.winehq.org/show_bug.cgi?id=4009#c27
+
 #include <windows.h>
 #include <windowsx.h>
 #include <ddraw.h>
@@ -27,6 +29,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	HWND main_hwnd;
 	HWND hwnd2;
 	DEVMODE devmode;
+	DWORD screen_x;
+	DWORD screen_y;
+	DWORD screen_bpp;
+
 	BOOL OK;
 	LPDIRECTDRAW dd_obj;
 	DDSURFACEDESC dd_sd1;
@@ -67,12 +73,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	printf("OK EnumDisplaySettings()\n");
 	printf("devmode says: %lux%lu (%lu bpp)\n", devmode.dmPelsWidth, devmode.dmPelsHeight, devmode.dmBitsPerPel);
 
+	screen_x = devmode.dmPelsWidth;
+	screen_y = devmode.dmPelsHeight;
+	screen_bpp = devmode.dmBitsPerPel;
+
 	rc = RegisterClass(&wc);
 	if (!rc)
 		return 1;
 	printf("OK RegisterClass()\n");
 
-	main_hwnd = CreateWindowEx(0, WIN_CLASS_NAME, WIN_TITLE, WS_POPUP, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), NULL, NULL, hInstance, NULL);
+	main_hwnd = CreateWindowEx(0, WIN_CLASS_NAME, WIN_TITLE, WS_POPUP, 0, 0, screen_x, screen_y, NULL, NULL, hInstance, NULL);
 	if (!main_hwnd)
 		return 1;
 	printf("OK CreateWindowEx()\n");
@@ -80,7 +90,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ShowWindow(main_hwnd, nCmdShow);
 	UpdateWindow(main_hwnd);
 
-        hwnd2 = CreateWindowEx(WS_EX_CONTROLPARENT, WIN_CLASS_NAME, WIN_TITLE, WS_POPUP, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), main_hwnd, NULL, hInstance, NULL);
+        hwnd2 = CreateWindowEx(WS_EX_CONTROLPARENT, WIN_CLASS_NAME, WIN_TITLE, WS_POPUP, 0, 0, screen_x, screen_y, main_hwnd, NULL, hInstance, NULL);
         if (!hwnd2)
                 return 1;
 	printf("OK ShowWindow, UpdateWindow, CreateWindowEx()\n");
@@ -101,7 +111,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 	printf("OK IDirectDraw_SetCooperativeLevel()\n");
 
-	rc = IDirectDraw_SetDisplayMode(dd_obj, devmode.dmPelsWidth, devmode.dmPelsHeight, devmode.dmBitsPerPel);
+	rc = IDirectDraw_SetDisplayMode(dd_obj, screen_x, screen_y, screen_bpp);
 	if (rc != DD_OK) {
 		printf("NO IDirectDraw_SetDisplayMode(): GLE = %ld\n", GetLastError());
 		IDirectDraw_Release(dd_obj);
@@ -142,7 +152,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			rc = IDirectDrawSurface_Lock(dd_buf1, NULL, &dd_sd1, 1, NULL);
 		}
 		lpscreen = (BYTE*)dd_sd1.lpSurface;
-		for (y = 0; y < 640*480; y++) {
+		for (y = 0; y < screen_x*screen_y; y++) {
 			lpscreen[y] = (BYTE)x;
 		}
 		rc = 1;
