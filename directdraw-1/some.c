@@ -71,11 +71,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return 1;
 	}
 	printf("OK EnumDisplaySettings()\n");
-	printf("devmode says: %lux%lu (%lu bpp)\n", devmode.dmPelsWidth, devmode.dmPelsHeight, devmode.dmBitsPerPel);
 
 	screen_x = devmode.dmPelsWidth;
 	screen_y = devmode.dmPelsHeight;
 	screen_bpp = devmode.dmBitsPerPel;
+	printf("Current display mode: %lux%lu (%lu bpp)\n", screen_x, screen_y, screen_bpp);
 
 	rc = RegisterClass(&wc);
 	if (!rc)
