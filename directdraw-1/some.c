@@ -22,6 +22,9 @@ LRESULT CALLBACK MainWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	LPWSTR cmd_line;
+	LPWSTR *arg_list;
+	int i, arg_count;
 	WNDCLASS wc;
 	const char *WIN_CLASS_NAME = "foo";
 	const char *WIN_TITLE = "foo2";
@@ -43,6 +46,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	int y;
         BYTE *lpscreen;
 	MSG msg;
+
+	cmd_line = GetCommandLineW();
+	arg_list = CommandLineToArgvW(cmd_line, &arg_count);
+
+	for(i=0; i<arg_count; i++)
+		printf("arg_list[%d] = %ls\n", i, arg_list[i]);
 
 	wc.style          = CS_DBLCLKS;
 	wc.lpfnWndProc    = (WNDPROC) MainWndProc;
@@ -72,14 +81,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 	printf("OK EnumDisplaySettings()\n");
 
-	screen_x = devmode.dmPelsWidth;
-	screen_y = devmode.dmPelsHeight;
-	screen_bpp = devmode.dmBitsPerPel;
+	screen_x   = (arg_count > 1 && arg_list[1]) ? (_wtoi(arg_list[1])) : (devmode.dmPelsWidth);
+	screen_y   = (arg_count > 2 && arg_list[2]) ? (_wtoi(arg_list[2])) : (devmode.dmPelsHeight);
+	screen_bpp = (arg_count > 3 && arg_list[3]) ? (_wtoi(arg_list[3])) : (devmode.dmBitsPerPel);
 	printf("Current display mode: %lux%lu (%lu bpp)\n", screen_x, screen_y, screen_bpp);
 	printf("GetSystemMetrics(SM_CXSCREEN)=%d\n", GetSystemMetrics(SM_CXSCREEN));
 	printf("GetSystemMetrics(SM_CYSCREEN)=%d\n", GetSystemMetrics(SM_CYSCREEN));
-	// screen_x = 640;
-	// screen_y = 480;
 
 	rc = RegisterClass(&wc);
 	if (!rc)
