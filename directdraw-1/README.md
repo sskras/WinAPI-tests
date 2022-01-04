@@ -36,15 +36,24 @@ $ ldd some.exe
 Output of the app (after it starts up, you press any key and it shuts down):
 ```
 $ ./some.exe
+arg_list[0] = C:\Users\hp\Downloads\WinAPI-tests\directdraw-1\some.exe
 OK EnumDisplaySettings()
-devmode says: 1920x1080 (32 bpp)
+Current display mode: 1920x1080 (32 bpp)
+Switching to display mode: 1920x1080 (32 bpp)
+GetSystemMetrics(SM_CXSCREEN)=1536
+GetSystemMetrics(SM_CYSCREEN)=864
 OK RegisterClass()
 OK CreateWindowEx()
 OK ShowWindow, UpdateWindow, CreateWindowEx()
 OK ShowWindow, UpdateWindow, DirectDrawCreate()
 OK IDirectDraw_SetCooperativeLevel()
 OK IDirectDraw_SetDisplayMode()
+GetSystemMetrics(SM_CXSCREEN)=1536
+GetSystemMetrics(SM_CYSCREEN)=864
+MoveWindow() returns 1
 OK IDirectDraw_CreateSurface()
 OK IDirectDraw_CreatePalette()
+OK IDirectDrawSurface_GetCaps()
+DDSCAPS are: 4
 OK IDirectDrawSurface_SetPalette()
 ```
