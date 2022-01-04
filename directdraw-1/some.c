@@ -173,29 +173,29 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	rc = IDirectDrawSurface_SetPalette(dd_buf1, whatever);
 	printf("OK IDirectDrawSurface_SetPalette()\n");
 
-		/*IDirectDraw_WaitForVerticalBlank(dd_obj, 1, NULL);*/
-		rc = 1;
-		while (rc != DD_OK) {
-			rc = IDirectDrawSurface_Lock(dd_buf1, NULL, &dd_sd1, 1, NULL);
-		}
-		lpscreen = (BYTE*)dd_sd1.lpSurface;
-		for (y = 0; y < screen_x * screen_y * (screen_bpp/8); y++) {
-			lpscreen[y] = (BYTE)128; // Half-brite white; maybe gray
-		}
-		rc = 1;
-		while (rc != DD_OK) {
-			rc = IDirectDrawSurface_Unlock(dd_buf1, NULL);
-		}
-		UpdateWindow(main_hwnd);
-		UpdateWindow(hwnd2);
+	/*IDirectDraw_WaitForVerticalBlank(dd_obj, 1, NULL);*/
+	rc = 1;
+	while (rc != DD_OK) {
+		rc = IDirectDrawSurface_Lock(dd_buf1, NULL, &dd_sd1, 1, NULL);
+	}
+	lpscreen = (BYTE*)dd_sd1.lpSurface;
+	for (y = 0; y < screen_x * screen_y * (screen_bpp/8); y++) {
+		lpscreen[y] = (BYTE)128; // Half-brite white; maybe gray
+	}
+	rc = 1;
+	while (rc != DD_OK) {
+		rc = IDirectDrawSurface_Unlock(dd_buf1, NULL);
+	}
+	UpdateWindow(main_hwnd);
+	UpdateWindow(hwnd2);
 
 	while (!quit) {
-	    		while(PeekMessage(&msg, main_hwnd, 0, 0, PM_NOREMOVE)) {
-	    			if(GetMessage(&msg, main_hwnd, 0, 0)) {
-					TranslateMessage(&msg);
-					DispatchMessage(&msg);
-	    			}
-        		}
+		while(PeekMessage(&msg, main_hwnd, 0, 0, PM_NOREMOVE)) {
+			if(GetMessage(&msg, main_hwnd, 0, 0)) {
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+		}
 	}
 
 	IDirectDraw_Release(dd_obj);
