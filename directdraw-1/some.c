@@ -175,7 +175,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 	while (!quit) {
-	for (x = 0; x < 255; x++) {
 		/*IDirectDraw_WaitForVerticalBlank(dd_obj, 1, NULL);*/
 		rc = 1;
 		while (rc != DD_OK) {
@@ -183,7 +182,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 		lpscreen = (BYTE*)dd_sd1.lpSurface;
 		for (y = 0; y < screen_x * screen_y * (screen_bpp/8); y++) {
-			lpscreen[y] = (BYTE)x;
+			lpscreen[y] = (BYTE)128; // Half-brite white; maybe gray
 		}
 		rc = 1;
 		while (rc != DD_OK) {
@@ -198,7 +197,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	    			}
         		}
 		}
-	}
 
 	IDirectDraw_Release(dd_obj);
 	return 0;
