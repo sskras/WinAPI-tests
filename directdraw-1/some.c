@@ -85,7 +85,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	screen_x   = (arg_count > 1 && arg_list[1]) ? (_wtoi(arg_list[1])) : (devmode.dmPelsWidth);
 	screen_y   = (arg_count > 2 && arg_list[2]) ? (_wtoi(arg_list[2])) : (devmode.dmPelsHeight);
 	screen_bpp = (arg_count > 3 && arg_list[3]) ? (_wtoi(arg_list[3])) : (devmode.dmBitsPerPel);
-	printf("Switching to display mode: %lux%lu (%lu bpp)\n", screen_x, screen_y, screen_bpp);
 	printf("GetSystemMetrics(SM_CXSCREEN)=%d\n", GetSystemMetrics(SM_CXSCREEN));
 	printf("GetSystemMetrics(SM_CYSCREEN)=%d\n", GetSystemMetrics(SM_CYSCREEN));
 
@@ -122,6 +121,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return 1;
 	}
 	printf("OK IDirectDraw_SetCooperativeLevel()\n");
+	printf("Switching to display mode: %lux%lu (%lu bpp)\n", screen_x, screen_y, screen_bpp);
 
 	rc = IDirectDraw_SetDisplayMode(dd_obj, screen_x, screen_y, screen_bpp);
 	if (rc != DD_OK) {
@@ -173,8 +173,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	rc = IDirectDrawSurface_SetPalette(dd_buf1, whatever);
 	printf("OK IDirectDrawSurface_SetPalette()\n");
 
-
-	while (!quit) {
 		/*IDirectDraw_WaitForVerticalBlank(dd_obj, 1, NULL);*/
 		rc = 1;
 		while (rc != DD_OK) {
@@ -190,13 +188,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 		UpdateWindow(main_hwnd);
 		UpdateWindow(hwnd2);
+
+	while (!quit) {
 	    		while(PeekMessage(&msg, main_hwnd, 0, 0, PM_NOREMOVE)) {
 	    			if(GetMessage(&msg, main_hwnd, 0, 0)) {
 					TranslateMessage(&msg);
 					DispatchMessage(&msg);
 	    			}
         		}
-		}
+	}
 
 	IDirectDraw_Release(dd_obj);
 	return 0;
