@@ -57,3 +57,23 @@ OK IDirectDrawSurface_GetCaps()
 DDSCAPS are: 4
 OK IDirectDrawSurface_SetPalette()
 ```
+
+Setting different display mode:
+```
+$ ./some.exe 800 600 16
+arg_list[0] = C:\Users\hp\Downloads\WinAPI-tests\directdraw-1\some.exe
+arg_list[1] = 800
+arg_list[2] = 600
+arg_list[3] = 16
+OK EnumDisplaySettings()
+Current display mode: 1920x1080 (32 bpp)
+Switching to display mode: 800x600 (16 bpp)
+GetSystemMetrics(SM_CXSCREEN)=1536
+GetSystemMetrics(SM_CYSCREEN)=864
+OK RegisterClass()
+OK CreateWindowEx()
+OK ShowWindow, UpdateWindow, CreateWindowEx()
+OK ShowWindow, UpdateWindow, DirectDrawCreate()
+OK IDirectDraw_SetCooperativeLevel()
+NO IDirectDraw_SetDisplayMode(): GLE = 126
+```
