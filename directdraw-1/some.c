@@ -81,10 +81,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 	printf("OK EnumDisplaySettings()\n");
 
+	printf("Current display mode: %lux%lu (%lu bpp)\n", devmode.dmPelsWidth, devmode.dmPelsHeight, devmode.dmBitsPerPel);
 	screen_x   = (arg_count > 1 && arg_list[1]) ? (_wtoi(arg_list[1])) : (devmode.dmPelsWidth);
 	screen_y   = (arg_count > 2 && arg_list[2]) ? (_wtoi(arg_list[2])) : (devmode.dmPelsHeight);
 	screen_bpp = (arg_count > 3 && arg_list[3]) ? (_wtoi(arg_list[3])) : (devmode.dmBitsPerPel);
-	printf("Current display mode: %lux%lu (%lu bpp)\n", screen_x, screen_y, screen_bpp);
+	printf("Switching to display mode: %lux%lu (%lu bpp)\n", screen_x, screen_y, screen_bpp);
 	printf("GetSystemMetrics(SM_CXSCREEN)=%d\n", GetSystemMetrics(SM_CXSCREEN));
 	printf("GetSystemMetrics(SM_CYSCREEN)=%d\n", GetSystemMetrics(SM_CYSCREEN));
 
